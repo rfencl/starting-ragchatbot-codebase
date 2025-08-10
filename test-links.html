@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Clickable Sources</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #0f172a;
+            color: #f1f5f9;
+        }
+        
+        .message {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .sources-collapsible {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+        
+        .sources-collapsible summary {
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            user-select: none;
+            font-weight: 500;
+        }
+        
+        .sources-collapsible summary:hover {
+            color: #f1f5f9;
+        }
+        
+        .sources-collapsible[open] summary {
+            margin-bottom: 0.25rem;
+        }
+        
+        .sources-content {
+            padding: 0 0.5rem 0.25rem 1.5rem;
+            color: #94a3b8;
+        }
+        
+        /* Source Link Styles */
+        .source-link {
+            color: #60a5fa;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.2s ease, text-decoration-color 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .source-link:hover {
+            color: #93c5fd;
+            text-decoration-color: #93c5fd;
+        }
+        
+        .source-link:focus {
+            outline: 2px solid #60a5fa;
+            outline-offset: 1px;
+            border-radius: 2px;
+        }
+        
+        h1 {
+            color: #60a5fa;
+            margin-bottom: 30px;
+        }
+        
+        .note {
+            background: #1e3a5f;
+            border: 1px solid #2563eb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Clickable Source Citations</h1>
+    
+    <div class="note">
+        <strong>Note:</strong> This demonstrates how clickable sources will appear in your RAG chatbot once you have the API key set up. Click on the blue source links to test the functionality.
+    </div>
+    
+    <div class="message">
+        <div class="message-content">
+            <p><strong>Answer:</strong> The Model Context Protocol (MCP) follows a client-server architecture where MCP clients maintain 1-to-1 connections with MCP servers. The architecture includes three core primitives: Tools (functions for data modification), Resources (read-only data), and Prompts (predefined templates to reduce prompt engineering burden).</p>
+        </div>
+        
+        <details class="sources-collapsible">
+            <summary class="sources-header">Sources</summary>
+            <div class="sources-content" id="demo-sources">
+                <!-- This will be populated by JavaScript to demonstrate the functionality -->
+            </div>
+        </details>
+    </div>
+    
+    <script>
+        // Simulate the source data structure that your backend returns
+        const testSources = [
+            {
+                text: "MCP: Build Rich-Context AI Apps with Anthropic - Lesson 2",
+                link: "https://learn.deeplearning.ai/courses/mcp-build-rich-context-ai-apps-with-anthropic/lesson/xtt6w/mcp-architecture"
+            },
+            {
+                text: "MCP: Build Rich-Context AI Apps with Anthropic - Lesson 1", 
+                link: "https://learn.deeplearning.ai/courses/mcp-build-rich-context-ai-apps-with-anthropic/lesson/ccsd0/why-mcp"
+            },
+            {
+                text: "Building Towards Computer Use with Anthropic - Lesson 0",
+                link: null  // No link available
+            }
+        ];
+        
+        // Function to escape HTML (same as in your script.js)
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Format sources exactly like your implementation
+        function formatSources(sources) {
+            return sources.map(source => {
+                if (typeof source === 'string') {
+                    return escapeHtml(source);
+                } else if (source.text) {
+                    if (source.link) {
+                        return `<a href="${escapeHtml(source.link)}" target="_blank" rel="noopener noreferrer" class="source-link">${escapeHtml(source.text)}</a>`;
+                    } else {
+                        return escapeHtml(source.text);
+                    }
+                }
+                return escapeHtml(String(source));
+            });
+        }
+        
+        // Populate the demo sources
+        document.addEventListener('DOMContentLoaded', () => {
+            const sourcesDiv = document.getElementById('demo-sources');
+            const formattedSources = formatSources(testSources);
+            sourcesDiv.innerHTML = formattedSources.join(', ');
+        });
+    </script>
+</body>
+</html>
